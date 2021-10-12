@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonMovement : MonoBehaviour
 {
 
-    public float moveSpeed = 300; 
+    public float moveSpeed = 300;
+
+    private Vector2 touchPosition;
+
     public GameObject Player;
+    public GameObject joystickHandle;
+    public Camera cam;
 
     private Rigidbody2D rb; 
     private float screenWidth;
@@ -17,7 +23,6 @@ public class ButtonMovement : MonoBehaviour
         rb = Player.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
        int i = 0;
@@ -26,14 +31,10 @@ public class ButtonMovement : MonoBehaviour
         {
             if (Input.GetTouch(i).position.x > screenWidth / 2) //if touch is on left half of screen
             {
-                MoveCharacter(1f); //pass horizontal value as float
-                Debug.Log("moving char left");
-            }
+                Touch touch = Input.GetTouch(0); //instantiates new touch (for each touch)
 
-            if (Input.GetTouch(i).position.x < screenWidth / 2)
-            {
-                MoveCharacter(-1f);
-                Debug.Log("moving char right");
+                touchPosition = new Vector2(touch.position.x, touch.position.y); //passes in touch position to vector2 
+                Debug.Log(touchPosition); //debug
             }
 
             i++;
