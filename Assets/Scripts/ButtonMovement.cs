@@ -13,6 +13,8 @@ public class ButtonMovement : MonoBehaviour
     private Vector3 startPositionOnScreen;
     private Vector3 movingPositionOnScreen;
     private Vector3 joystickPositionScreen;
+    private Vector2 offsetPos;
+    private Vector2 offsetPosMove;
 
     public GameObject Player;
     public Transform joystickHandle;
@@ -54,16 +56,24 @@ public class ButtonMovement : MonoBehaviour
 
                         movingPosition = touch.position;  //converts current position while moving in pixels 
                         movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition); //converts touch position in pixels to touch position on screen 
+                        break;
 
-                        Debug.Log("Moved to positon: " + movingPositionOnScreen + "On screen");
+                    case TouchPhase.Stationary:
+                        movingPosition = touch.position;
+                        movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition);
                         break;
                 }
 
 
                 Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2 
-                //Debug.Log(joystickPosition);
                 joystickPositionScreen = cam.ScreenToWorldPoint(joystickPosition); //convert joystick position in world to position on screen
-                //Debug.Log(joystickPositionScreen);
+
+                offsetPos = joystickPositionScreen - movingPositionOnScreen; //calculates the difference between where the player is touching + where the gameobject is 
+
+                Vector2 offsetPosMove = Vector2.ClampMagnitude(offsetPos, 1);
+                Debug.Log("Moved Character by: " + -offsetPosMove);
+
+                MoveCharacter(-offsetPosMove.x);
             }
 
             i++;
