@@ -8,10 +8,14 @@ public class ButtonMovement : MonoBehaviour
 
     public float moveSpeed = 300;
 
-    private Vector2 touchPosition;
+    private Vector2 startPosition;
+    private Vector2 movingPosition;
+    private Vector3 startPositionOnScreen;
+    private Vector3 movingPositionOnScreen;
+    private Vector3 joystickPositionScreen;
 
     public GameObject Player;
-    public GameObject joystickHandle;
+    public Transform joystickHandle;
     public Camera cam;
 
     private Rigidbody2D rb; 
@@ -25,16 +29,41 @@ public class ButtonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-       int i = 0;
+        ManageTouches();
+    }
+
+    private void ManageTouches()
+    {
+        int i = 0;
 
         while (i < Input.touchCount) //loops for every touch
         {
-            if (Input.GetTouch(i).position.x > screenWidth / 2) //if touch is on left half of screen
+            if (Input.GetTouch(i).position.x < screenWidth / 2) //if touch is on left half of screen
             {
                 Touch touch = Input.GetTouch(0); //instantiates new touch (for each touch)
 
-                touchPosition = new Vector2(touch.position.x, touch.position.y); //passes in touch position to vector2 
-                Debug.Log(touchPosition); //debug
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+
+                        startPosition = touch.position; //stores the first touch in pixels 
+                        startPositionOnScreen = cam.ScreenToWorldPoint(startPosition); //converts touch position in pixels to touch position on screen 
+                        break;
+
+                    case TouchPhase.Moved:
+
+                        movingPosition = touch.position;  //converts current position while moving in pixels 
+                        movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition); //converts touch position in pixels to touch position on screen 
+
+                        Debug.Log("Moved to positon: " + movingPositionOnScreen + "On screen");
+                        break;
+                }
+
+
+                Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2 
+                //Debug.Log(joystickPosition);
+                joystickPositionScreen = cam.ScreenToWorldPoint(joystickPosition); //convert joystick position in world to position on screen
+                //Debug.Log(joystickPositionScreen);
             }
 
             i++;

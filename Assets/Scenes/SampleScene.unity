@@ -10993,6 +10993,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   Player: {fileID: 1565310524}
+  joystickHandle: {fileID: 1607105535}
+  cam: {fileID: 519420031}
 --- !u!1 &679901485
 GameObject:
   m_ObjectHideFlags: 0
@@ -11039,7 +11041,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1213872, y: 1}
+    m_SensorSize: {x: 2.1666667, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
