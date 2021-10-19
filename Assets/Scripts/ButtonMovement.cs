@@ -17,6 +17,8 @@ public class ButtonMovement : MonoBehaviour
     private Vector2 offsetPosMove;
 
     public GameObject Player;
+    public GameObject joystickSprite;
+    public Vector2 joystickSpritePos;
     public Transform joystickHandle;
     public Camera cam;
 
@@ -27,6 +29,8 @@ public class ButtonMovement : MonoBehaviour
     {
         screenWidth = Screen.width; 
         rb = Player.GetComponent<Rigidbody2D>();
+
+        //Vector2 joystickSpritePos = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //gets initial position of joystick handle for sprite to move around 
     }
 
     void FixedUpdate()
@@ -50,17 +54,28 @@ public class ButtonMovement : MonoBehaviour
 
                         startPosition = touch.position; //stores the first touch in pixels 
                         startPositionOnScreen = cam.ScreenToWorldPoint(startPosition); //converts touch position in pixels to touch position on screen 
+
                         break;
 
                     case TouchPhase.Moved:
 
                         movingPosition = touch.position;  //converts current position while moving in pixels 
                         movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition); //converts touch position in pixels to touch position on screen 
+
                         break;
 
                     case TouchPhase.Stationary:
+
                         movingPosition = touch.position;
                         movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition);
+
+                        break;
+
+                    case TouchPhase.Ended:
+
+                        joystickSprite.transform.position = new Vector2(joystickSpritePos.x, joystickSpritePos.y); //resets joystick sprite position
+                        Debug.Log("joystick reset");
+
                         break;
                 }
 
@@ -70,12 +85,13 @@ public class ButtonMovement : MonoBehaviour
 
                 offsetPos = joystickPositionScreen - movingPositionOnScreen; //calculates the difference between where the player is touching + where the gameobject is 
 
-                Vector2 offsetPosMove = Vector2.ClampMagnitude(offsetPos, 1);
-                Debug.Log("Moved Character by: " + -offsetPosMove);
+                Vector2 offsetPosMove = Vector2.ClampMagnitude(offsetPos, 1); //new Vector2 clamped from -1 to 1
+                //Debug.Log("Moved Character by: " + -offsetPosMove);
 
-                MoveCharacter(-offsetPosMove.x);
+                MoveCharacter(-offsetPosMove.x); //move character by clamped vector
+
+                //joystickSprite.transform.position = Vector2.MoveTowards(joystickSpritePos, movingPositionOnScreen, 1000); //for moving joystick sprite by offset position (doesn't work)
             }
-
             i++;
         }
     }
