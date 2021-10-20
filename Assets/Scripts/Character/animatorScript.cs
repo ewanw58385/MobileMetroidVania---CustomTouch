@@ -5,26 +5,49 @@ using UnityEngine;
 public class animatorScript : MonoBehaviour
 {
     public ButtonMovement buttonMovement;
-    Vector2 flipDirection; 
+    Animator anim;
+    Rigidbody2D rb;
+
+    Vector2 direction; 
+    Vector2 force;
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
-        Vector2 flipDirection = new Vector2(buttonMovement.direction.x, buttonMovement.direction.y);//gets direction Vector2 from button script to flip sprite 
-        Debug.Log("fd: " + flipDirection);
+        Vector2 direction = new Vector2(buttonMovement.direction.x, buttonMovement.direction.y);//gets direction Vector2 from button script to flip sprite 
+        //Debug.Log("fd: " + direction);
 
-        Flip(flipDirection);
+        Flip(direction);
+        SetSpeedForAnim();
     }
 
-    void Flip(Vector2 flipDirection)
+    void Flip(Vector2 direction)
     {
-        if (flipDirection.x < 0) //move left
+        if (direction.x < 0) //move left
         {
             transform.localScale = new Vector3 (1f, 1f, 1f);
         }
 
-        if (flipDirection.x > 0) //move right
+        if (direction.x > 0) //move right
         {
-            transform.localScale = new Vector3 (-1f, 1f, 1f);
+            transform.localScale = new Vector3 (-1f, 1f, 1f); //flip 
         }
+    }
+    
+    void SetSpeedForAnim()
+    {
+        float speed = rb.velocity.x;
+
+        if(speed<0 )
+        {
+            speed = -speed;
+             anim.SetFloat("speed", speed );
+        }
+
     }
 }
