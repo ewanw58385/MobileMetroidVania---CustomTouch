@@ -99,7 +99,6 @@ public class ButtonMovement : MonoBehaviour
     public void MoveCharacter(float directionHori)
     {
         direction = new Vector2 (directionHori, 0); //new vector2 using passed x value (1 or -1). //BUG - passing in 0 as Y axis overrides gravity while player is moving. 
-        //passing in -1 or other negative integer for Y works but speeds falling while moving and not moving differ since gravity is overrided.
 
         rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime); //apply movement 
     }

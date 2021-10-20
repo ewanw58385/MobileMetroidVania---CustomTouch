@@ -42,6 +42,7 @@ public class animatorScript : MonoBehaviour
     void SetSpeedForAnim()
     {
         float speed = rb.velocity.x;
+        Debug.Log(speed);
 
         if(speed<0 )
         {
