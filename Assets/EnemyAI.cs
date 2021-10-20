@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+
 public class EnemyAI : MonoBehaviour
 {
     public Transform target; //target to follow
-    public float followSpeed; // speed to follow target
+    public float followSpeed = 300f; // speed to follow target
     public float nextWaypointDistance = 3f; //distance before move towards target
 
     Path path; //current path following
-    int currentWaypoint; //stores current waypoint along path 
+    int currentWaypoint = 0; //stores current waypoint along path 
     bool reachedEndOfPath = false; //bool for if have reached end of path
 
     Seeker seeker; //referance script responsible for making paths
@@ -20,23 +21,29 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
-        seeker.StartPath(rb.position, target.position, OnPathComplete); //seeker function creates path (starting position, position to move to, method called once path completed)
+        InvokeRepeating("UpdatePath", 0f, 0.5f); //repeat path "update path", no delay, repeating every 0.5 seconds
+
     }
 
-    public void OnPathComplete(Path p) //method called once path is completed. Takes the newly generated generated path as parameter (called p for each instance)
+    void UpdatePath() //to continiously update path
+    {
+        if(seeker.IsDone())
+        seeker.StartPath(rb.position, target.position, OnPathComplete); //seeker function creates path (starting position, position to move to, method called once path completed)  
+    }
+
+    void OnPathComplete(Path p) //method called once path is completed. Takes the newly generated generated path as parameter (called p for each instance)
     {
         if (!p.error) //if path doesn't generate any errors
         {
-            p = path; //sets newly generated path to current path
+            path = p; //sets newly generated path to current path
             currentWaypoint = 0; //sets waypoint to 0 as path has completed
         }
     }
     void FixedUpdate()
     {
         if (path == null) //if we don't have a path
-        {
             return;
-        }
+        
 
         if (currentWaypoint >= path.vectorPath.Count) //if we have reached the end of the waypoints in the path
         {
@@ -49,7 +56,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized; //gets direction towards next waypoint along path and stores as Vector2 
-        Vector2 force = (direction * followSpeed * Time.fixedDeltaTime); //creates Vector2 for applying movement to enemy
+        Vector2 force = direction * followSpeed * Time.fixedDeltaTime; //creates Vector2 for applying movement to enemy
 
         rb.AddForce(force); //apply movement to enemy
         Debug.Log("moving...");
