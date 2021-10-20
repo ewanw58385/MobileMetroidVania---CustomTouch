@@ -10993,6 +10993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  direction: {x: 0, y: 0}
   Player: {fileID: 1565310524}
   joystickSprite: {fileID: 1607105534}
   joystickSpritePos: {x: 0, y: 0}
@@ -11220,6 +11221,7 @@ GameObject:
   - component: {fileID: 1565310527}
   - component: {fileID: 1565310526}
   - component: {fileID: 1565310525}
+  - component: {fileID: 1565310530}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -11240,7 +11242,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.11, y: -0.051089883}
+  m_Offset: {x: -0.14, y: -0.051089883}
   m_Size: {x: 1.11972, y: 1.5795286}
   m_Direction: 0
 --- !u!50 &1565310526
@@ -11350,6 +11352,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1565310530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565310524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8feda6513ee91ae47a1b87129c05c1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonMovement: {fileID: 519420033}
 --- !u!1 &1607105534
 GameObject:
   m_ObjectHideFlags: 0
@@ -13632,7 +13647,7 @@ MonoBehaviour:
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
     cacheStartup: 0
-  showNavGraphs: 1
+  showNavGraphs: 0
   showUnwalkableNodes: 1
   debugMode: 0
   debugFloor: 0
@@ -13640,7 +13655,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 0
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -13691,7 +13706,7 @@ MonoBehaviour:
   heuristic: 2
   heuristicScale: 1
   threadCount: 1
-  maxFrameTime: 1
+  maxFrameTime: 10
   batchGraphUpdates: 0
   graphUpdateBatchingInterval: 0.2
   euclideanEmbedding:
@@ -38177,7 +38192,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.3, y: -0.32}
+  m_Offset: {x: 0.01, y: -0.05}
   m_Size: {x: 0.73896044, y: 1.1371734}
   m_Direction: 0
 --- !u!50 &1958391503
@@ -38238,9 +38253,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1958391500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39634928079f5d14f982676ec301d9fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b5b899281f100b46a66a3e7ba0747d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1565310529}
-  followSpeed: 400
+  followSpeed: 300
   nextWaypointDistance: 3

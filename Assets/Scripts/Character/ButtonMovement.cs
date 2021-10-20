@@ -16,6 +16,8 @@ public class ButtonMovement : MonoBehaviour
     private Vector2 offsetPos;
     private Vector2 offsetPosMove;
 
+    public Vector2 direction; 
+
     public GameObject Player;
     public GameObject joystickSprite;
     public Vector2 joystickSpritePos;
@@ -73,7 +75,7 @@ public class ButtonMovement : MonoBehaviour
 
                     case TouchPhase.Ended:
 
-                        joystickSprite.transform.position = new Vector2(joystickSpritePos.x, joystickSpritePos.y); //resets joystick sprite position
+                        //joystickSprite.transform.position = new Vector2(joystickSpritePos.x, joystickSpritePos.y); //resets joystick sprite position
                         Debug.Log("joystick reset");
 
                         break;
@@ -89,17 +91,15 @@ public class ButtonMovement : MonoBehaviour
                 //Debug.Log("Moved Character by: " + -offsetPosMove);
 
                 MoveCharacter(-offsetPosMove.x); //move character by clamped vector
-
-                //joystickSprite.transform.position = Vector2.MoveTowards(joystickSpritePos, movingPositionOnScreen, 1000); //for moving joystick sprite by offset position (doesn't work)
             }
             i++;
         }
     }
 
-    private void MoveCharacter(float directionHori)
+    public void MoveCharacter(float directionHori)
     {
-        Vector2 direction = new Vector2 (directionHori, 0); //new vector2 using passed x value (1 or -1). //BUG - passing in 0 as Y axis overrides gravity while player is moving. 
-        //passing in -1 or other negative integer for Y works but speeds falling while moving and not moving differ since gravity is overrided. 
+        direction = new Vector2 (directionHori, 0); //new vector2 using passed x value (1 or -1). //BUG - passing in 0 as Y axis overrides gravity while player is moving. 
+        //passing in -1 or other negative integer for Y works but speeds falling while moving and not moving differ since gravity is overrided.
 
         rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime); //apply movement 
     }

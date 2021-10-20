@@ -12,49 +12,34 @@ public class CharacterControllerScript : MonoBehaviour
     public Animator anim;
     public Rigidbody2D rb;
 
-
-    public Joystick joystick;
-    public float joystickSensitivity = 0.2f;
-
     void Update()
     {  
         FacingIdleManager();
-        SetJoystickSensitivity();
 
-        direction = new Vector2(joystick.Horizontal, 0);
-
-        transform.Translate(direction * moveSpeed * Time.fixedDeltaTime);
+        //transform.Translate(direction * moveSpeed * Time.fixedDeltaTime);
     
-        anim.SetFloat("horizontal", direction.x); //for blendtree left n right
-        anim.SetFloat("speed", moveSpeed); //to check if is moving 
-
-
+        //anim.SetFloat("horizontal", direction.x); //for blendtree left n right
+        //anim.SetFloat("speed", moveSpeed); //to check if is moving 
     }  
 
     void FixedUpdate()
     {
-       transform.Translate(direction * moveSpeed * Time.fixedDeltaTime);
+       //transform.Translate(direction * moveSpeed * Time.fixedDeltaTime);
     }
     
     void FacingIdleManager()
     {
-        if (direction.x > 0 || direction.x < 0) //If statement to set the correct idle animation (idle right, left) based off last direction.
+
+        Debug.Log(direction);
+        if (direction.x > 0) //If statement to set the correct idle animation (idle right, left) based off last direction.
         
         {
-            anim.SetFloat("lastHori", direction.x);
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         }
-    }
-
-    void SetJoystickSensitivity()
-    {
-        if ((joystick.Horizontal <= joystickSensitivity) && (joystick.Horizontal >= -joystickSensitivity)) //if statement to set sensitivity of joystick
+        if (direction.x < 0)
         {
-            moveSpeed = 0f;
-        }
-        else 
-        {
-            moveSpeed = 2.75f;
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
     }
 

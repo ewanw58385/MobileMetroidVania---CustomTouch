@@ -59,7 +59,6 @@ public class EnemyAI : MonoBehaviour
         Vector2 force = direction * followSpeed * Time.fixedDeltaTime; //creates Vector2 for applying movement to enemy
 
         rb.AddForce(force); //apply movement to enemy
-        Debug.Log("moving...");
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]); //calculating distance towards next waypoint 
 
