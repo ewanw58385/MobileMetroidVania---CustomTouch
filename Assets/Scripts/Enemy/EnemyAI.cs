@@ -9,6 +9,8 @@ public class EnemyAI : MonoBehaviour
     public float followSpeed = 300f; // speed to follow target
     public float nextWaypointDistance = 3f; //distance before move towards target
 
+    private bool withinRange = false;
+
     Path path; //current path following
     int currentWaypoint = 0; //stores current waypoint along path 
     bool reachedEndOfPath = false; //bool for if have reached end of path
@@ -23,6 +25,22 @@ public class EnemyAI : MonoBehaviour
 
         InvokeRepeating("UpdatePath", 0f, 0.5f); //repeat path "update path", no delay, repeating every 0.5 seconds
 
+    }
+
+    void OnTriggerEnter2D (Collider2D col)
+    {
+        if(col.gameObject.tag == "Player")
+        {
+            withinRange = true;
+        }
+    }
+
+        void OnTriggerExit2D (Collider2D col)
+    {
+        if(col.gameObject.tag == "Player")
+        {
+            withinRange = false;
+        }
     }
 
     void UpdatePath() //to continiously update path
@@ -58,7 +76,11 @@ public class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized; //gets direction towards next waypoint along path and stores as Vector2 
         Vector2 force = direction * followSpeed * Time.fixedDeltaTime; //creates Vector2 for applying movement to enemy
 
-        rb.AddForce(force); //apply movement to enemy
+
+        if (withinRange)
+        {
+            rb.AddForce(force); //apply movement to enemy
+        }
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]); //calculating distance towards next waypoint 
 
