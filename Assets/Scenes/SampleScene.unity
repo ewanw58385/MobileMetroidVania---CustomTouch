@@ -42389,5 +42389,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1565310529}
-  followSpeed: 300
+  followSpeed: 500
   nextWaypointDistance: 3

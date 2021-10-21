@@ -8,15 +8,15 @@ public class ButtonMovement : MonoBehaviour
 
     public float moveSpeed = 300;
 
-    private Vector2 startPosition;
-    private Vector2 movingPosition;
-    private Vector3 startPositionOnScreen;
-    private Vector3 movingPositionOnScreen;
-    private Vector3 joystickPositionScreen;
-    private Vector2 offsetPos;
-    private Vector2 offsetPosMove;
+    private Vector2 startPosition; //where you clicked
+    private Vector2 movingPosition; //where you clicked and are moving 
+    private Vector3 startPositionOnScreen; //where you clicked converted to position on screen
+    private Vector3 movingPositionOnScreen; //where you clicked and are moving converted to position on screen
+    private Vector3 joystickPositionScreen; //where joystick is converted to position on screen
+    private Vector2 offsetPos; //where playing is touching - joystick positon
+    private Vector2 offsetPosMove; //offsetPos clameped to 1 for a -1/1 integer for applying horizontal movement
 
-    public Vector2 direction; 
+    public Vector2 direction; //public direction vector for animation script to access (for flipping sprite)
 
     public GameObject Player;
     public GameObject joystickSprite;
@@ -82,8 +82,11 @@ public class ButtonMovement : MonoBehaviour
                 }
 
 
-                Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2 
+                Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2    
+                //Debug.Log("joystick position in world = " + joystickPosition);
+
                 joystickPositionScreen = cam.ScreenToWorldPoint(joystickPosition); //convert joystick position in world to position on screen
+                //Debug.Log("joystick position on screen = " + joystickPositionScreen);
 
                 offsetPos = joystickPositionScreen - movingPositionOnScreen; //calculates the difference between where the player is touching + where the gameobject is 
 
@@ -98,8 +101,11 @@ public class ButtonMovement : MonoBehaviour
 
     public void MoveCharacter(float directionHori)
     {
-        direction = new Vector2 (directionHori, 0); //new vector2 using passed x value (1 or -1). //BUG - passing in 0 as Y axis overrides gravity while player is moving. 
+        var velocity = rb.velocity; //save velocity 
 
-        rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime); //apply movement 
+        velocity.x = directionHori * moveSpeed; //pass direction on the X * moveSpeed to velocity
+
+        rb.velocity = velocity; //apply velocity to player
+
     }
 }
