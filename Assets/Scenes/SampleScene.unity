@@ -4220,7 +4220,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0.11320323, y: 0, z: 0, w: 0.9935719}
-  m_LocalPosition: {x: -4.11, y: -0.38000003, z: -2.12}
+  m_LocalPosition: {x: -4.11, y: -0.86, z: -2.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4238,11 +4238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac88393711edd04187512dfa7109fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 6
   direction: {x: 0, y: 0}
+  stoppedMoving: 0
   Player: {fileID: 1565310524}
   joystickSprite: {fileID: 1607105534}
-  joystickSpritePos: {x: 0, y: 0}
   joystickHandle: {fileID: 1449415240}
   cam: {fileID: 519420031}
 --- !u!1 &679901485
@@ -4308,7 +4308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679901485}
   m_LocalRotation: {x: 0.11320323, y: 0, z: 0, w: 0.9935719}
-  m_LocalPosition: {x: -4.11, y: -0.38000003, z: -2.12}
+  m_LocalPosition: {x: -4.11, y: -0.86, z: -2.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1892000146}
@@ -8964,7 +8964,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.14, y: -0.051089883}
+  m_Offset: {x: -0.14, y: 0.06}
   m_Size: {x: 1.11972, y: 1.5795286}
   m_Direction: 0
 --- !u!50 &1565310526
@@ -9068,7 +9068,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565310524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.11, y: -0.72, z: 0}
+  m_LocalPosition: {x: -4.11, y: -1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -42304,7 +42304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958391500}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.5, y: 0.44, z: 0}
+  m_LocalPosition: {x: 38.35, y: -11.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1450006719}

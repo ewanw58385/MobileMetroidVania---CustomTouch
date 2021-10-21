@@ -8,9 +8,6 @@ public class animatorScript : MonoBehaviour
     Animator anim;
     Rigidbody2D rb;
 
-    Vector2 direction; 
-    Vector2 force;
-
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -19,10 +16,12 @@ public class animatorScript : MonoBehaviour
 
     void Update()
     {
-        Vector2 direction = new Vector2(buttonMovement.direction.x, buttonMovement.direction.y);//gets direction Vector2 from button script to flip sprite 
-        //Debug.Log("fd: " + direction);
-
+        Vector2 direction = buttonMovement.direction;//gets direction Vector2 from button script to flip sprite 
         Flip(direction);
+    }
+
+    void FixedUpdate()
+    {
         SetSpeedForAnim();
     }
 
@@ -41,14 +40,25 @@ public class animatorScript : MonoBehaviour
     
     void SetSpeedForAnim()
     {
-        float speed = rb.velocity.x;
-        //Debug.Log(speed);
+        /*float speed = rb.velocity.x;
+
+        Debug.Log("speed = " + speed);
 
         if(speed < 0 )
         {
             speed = -speed;
              anim.SetFloat("speed", speed );
-        }
+        }*/
 
+        bool stoppedMoving = buttonMovement.stoppedMoving;
+
+        if(stoppedMoving)
+        {
+            anim.SetBool("isMoving", false);
+        }
+        else
+        {
+            anim.SetBool("isMoving", true);
+        }
     }
 }
