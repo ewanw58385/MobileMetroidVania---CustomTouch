@@ -16,10 +16,9 @@ public class ButtonMovement : MonoBehaviour
     private Vector2 offsetPos; //where playing is touching - joystick positon
     private Vector2 offsetPosMove; //offsetPos clameped to 1 for a -1/1 integer for applying horizontal movement
 
-    [HideInInspector] //unnecessary to be shown in inspector
-    public Vector2 direction; //public direction vector for animation script to access (for flipping sprite)
-    [HideInInspector]
-    public bool stoppedMoving;
+    [HideInInspector] public Vector2 direction; //public direction vector for animation script to access (for flipping sprite)
+    
+    [HideInInspector] public bool stoppedMoving;
 
     public GameObject Player;
     public GameObject joystickSprite;
@@ -43,6 +42,8 @@ public class ButtonMovement : MonoBehaviour
     void FixedUpdate()
     {
         ManageTouches();
+
+        Debug.Log("is grounded = " + GroundCheck());
     }
 
     private void ManageTouches()
@@ -93,6 +94,15 @@ public class ButtonMovement : MonoBehaviour
                         break;
                 }
 
+                /*if (touch.position.x > screenWidth / 2) //if statement for fixing bug where if player moves finger to outside of screenbounds the playerstate returns to idle
+                {                        
+                    Debug.Log("stopped moving");
+                    stoppedMoving = true;      
+                }
+
+                Debug.Log("screen width" + screenWidth / 2);
+                Debug.Log(touch.position.x);*/
+
 
                 Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2    
                 joystickPositionScreen = cam.ScreenToWorldPoint(joystickPosition); //convert joystick position in world to position on screen
@@ -106,15 +116,20 @@ public class ButtonMovement : MonoBehaviour
         }
     }
 
+    private bool GroundCheck()
+    {
+        return GameObject.Find("GroundCheck").GetComponent<GroundCheck>().isGrounded;
+    }
+
     public void MoveCharacter(float directionHori)
     {
         var velocity = rb.velocity; //save velocity 
         velocity.x = directionHori * moveSpeed; //pass direction on the X * moveSpeed to velocity
+        rb.velocity = velocity;
 
-        if (stoppedMoving) //because moving by velocity creates sliding, I set velocity to 0 when player is not touching the screen. 
+        if (stoppedMoving && GroundCheck()) //because moving by velocity creates sliding, I set velocity to 0 when player is not touching the screen. groundcheck to make sure player can't stop falling midair by stopping velocity  
         {
             rb.velocity = new Vector2(0, 0);
-
         }
         else
         {
