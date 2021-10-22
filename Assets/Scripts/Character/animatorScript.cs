@@ -40,16 +40,6 @@ public class animatorScript : MonoBehaviour
     
     void SetSpeedForAnim()
     {
-        /*float speed = rb.velocity.x;
-
-        Debug.Log("speed = " + speed);
-
-        if(speed < 0 )
-        {
-            speed = -speed;
-             anim.SetFloat("speed", speed );
-        }*/
-
         bool stoppedMoving = buttonMovement.stoppedMoving;
 
         if(stoppedMoving)

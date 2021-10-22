@@ -42,8 +42,9 @@ public class ButtonMovement : MonoBehaviour
     void FixedUpdate()
     {
         ManageTouches();
+        PreventOutOfBoundsTouch();
 
-        Debug.Log("is grounded = " + GroundCheck());
+        //Debug.Log("is grounded = " + GroundCheck());
     }
 
     private void ManageTouches()
@@ -73,7 +74,7 @@ public class ButtonMovement : MonoBehaviour
                         movingPositionOnScreen = cam.ScreenToWorldPoint(movingPosition); //converts touch position in pixels to touch position on screen 
 
                         stoppedMoving = false;
-
+                        
                         break;
 
                     case TouchPhase.Stationary:
@@ -94,16 +95,6 @@ public class ButtonMovement : MonoBehaviour
                         break;
                 }
 
-                /*if (touch.position.x > screenWidth / 2) //if statement for fixing bug where if player moves finger to outside of screenbounds the playerstate returns to idle
-                {                        
-                    Debug.Log("stopped moving");
-                    stoppedMoving = true;      
-                }
-
-                Debug.Log("screen width" + screenWidth / 2);
-                Debug.Log(touch.position.x);*/
-
-
                 Vector2 joystickPosition = new Vector2(joystickHandle.position.x, joystickHandle.position.y); //Gets position of handle as Vector2    
                 joystickPositionScreen = cam.ScreenToWorldPoint(joystickPosition); //convert joystick position in world to position on screen
 
@@ -112,6 +103,33 @@ public class ButtonMovement : MonoBehaviour
 
                 MoveCharacter(-offsetPosMove.x); //move character by clamped vector
             }
+
+            i++;
+        }
+    }
+
+    private void PreventOutOfBoundsTouch()
+    {
+        int i = 0;
+
+        while (i < Input.touchCount) //loops for every touch
+        {
+                Touch touch = Input.GetTouch(0); //instantiates new touch (for each touch)
+
+                switch (touch.phase)
+                {
+                    case TouchPhase.Moved:
+
+                        movingPosition = touch.position;  //converts current position while moving in pixels  
+
+                        if (movingPosition.x > screenWidth / 2) //if touch moves out of bounds 
+                        {
+                            Debug.Log("touch moved out of bounds");
+                            rb.velocity = Vector2.zero;
+                        }
+
+                        break;
+                }         
             i++;
         }
     }
@@ -124,12 +142,12 @@ public class ButtonMovement : MonoBehaviour
     public void MoveCharacter(float directionHori)
     {
         var velocity = rb.velocity; //save velocity 
-        velocity.x = directionHori * moveSpeed; //pass direction on the X * moveSpeed to velocity
-        rb.velocity = velocity;
+        velocity.x = directionHori * moveSpeed; //pass direction.x * moveSpeed to velocity.x
+        rb.velocity = velocity; //set velocity on rb
 
-        if (stoppedMoving && GroundCheck()) //because moving by velocity creates sliding, I set velocity to 0 when player is not touching the screen. groundcheck to make sure player can't stop falling midair by stopping velocity  
+        if (stoppedMoving && GroundCheck() ) //because moving by velocity creates sliding, I set velocity to 0 when player is not touching the screen. groundcheck to make sure player can't stop falling midair by stopping velocity  
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.velocity = Vector2.zero;
         }
         else
         {
