@@ -118,11 +118,17 @@ public class ButtonMovement : MonoBehaviour
 
                 switch (touch.phase)
                 {
+                    case TouchPhase.Began:
+                    
+                    startPosition = touch.position;
+
+                    break;
+
                     case TouchPhase.Moved:
 
                         movingPosition = touch.position;  //converts current position while moving in pixels  
 
-                        if (movingPosition.x > screenWidth / 2) //if touch moves out of bounds 
+                        if ((movingPosition.x > screenWidth / 2) && (startPosition.x < screenWidth / 2) ) //if touch moves out of bounds and beginning of touch was on the left 
                         {
                             Debug.Log("touch moved out of bounds");
                             rb.velocity = Vector2.zero;

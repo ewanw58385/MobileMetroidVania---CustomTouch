@@ -22,7 +22,7 @@ public class animatorScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        SetSpeedForAnim();
+        SetMovementBoolForAnim();
     }
 
     void Flip(Vector2 direction)
@@ -38,17 +38,22 @@ public class animatorScript : MonoBehaviour
         }
     }
     
-    void SetSpeedForAnim()
+    void SetMovementBoolForAnim()
     {
         bool stoppedMoving = buttonMovement.stoppedMoving;
 
         if(stoppedMoving)
         {
-            anim.SetBool("isMoving", false);
+            anim.SetBool("isMoving", false); //idle anim
         }
         else
         {
-            anim.SetBool("isMoving", true);
+            anim.SetBool("isMoving", true); //running anim
         }
+    }
+
+    public void Attack()
+    {
+        anim.SetTrigger("attack");
     }
 }

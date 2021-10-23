@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class animScirpt : MonoBehaviour
 {
- 
     private Animator anim;
 
     void Start()
