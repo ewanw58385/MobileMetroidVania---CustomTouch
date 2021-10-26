@@ -8,9 +8,14 @@ public class animatorScript : MonoBehaviour
     Animator anim;
     Rigidbody2D rb;
 
+    [HideInInspector]
     public float flipDirection;
+    [HideInInspector]
+    public bool freezeWhileAttacking = false;
 
-    [HideInInspector] public bool freezeWhileAttacking = false;
+    public Transform attackPoint;
+    public float attackRange;
+    public LayerMask enemyLayer;
 
     void Start()
     {
@@ -21,8 +26,6 @@ public class animatorScript : MonoBehaviour
     void Update()
     {
         flipDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) from button script to flip sprite 
-        Debug.Log(flipDirection);
-
         Flip(flipDirection);
 
         FreezeWhileAttacking();
@@ -44,13 +47,11 @@ public class animatorScript : MonoBehaviour
         if (flipDirection < 0) //move left
         {
             transform.localScale = new Vector3 (1f, 1f, 1f);
-            Debug.Log("face left");
         }
 
         if (flipDirection > 0) //move right
         {
             transform.localScale = new Vector3 (-1f, 1f, 1f); //flip 
-            Debug.Log("face right");
         }
     }
     
@@ -68,20 +69,41 @@ public class animatorScript : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void PlayAttackFromButton()
     {
-        anim.SetTrigger("attack");
+        anim.SetTrigger("attack"); //playAttackAnim
+    }
+
+    public void StoreAttackInArray()
+    {
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer); //creates array to store attack
+
+        foreach(Collider2D enemy in enemiesHit) //for each hit
+        {
+            Debug.Log("hit " + enemy.name + "!"); //apply damage
+            enemy.GetComponent<EnemyHealth>().TakeDamage();
+        }
+    }
+
+    void OnDrawGizmosSelected() //to display the attack range in scene view 
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
     public void FreezeWhileAttacking()
     {
-         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //if attack is playing
          {
-            freezeWhileAttacking = true;
+            freezeWhileAttacking = true; //freeze the player (done in button script)
          }
          else
          {
-            freezeWhileAttacking = false;
+            freezeWhileAttacking = false; //unfreeze if not attacking
          }
     }
 

@@ -172,8 +172,5 @@ public class ButtonMovement : MonoBehaviour
         }
 
         flipDirection = directionHori; //public direction Vector for setting flip in anim controller
-
-        //Debug.Log(flipDirection);
-
     }
 }
