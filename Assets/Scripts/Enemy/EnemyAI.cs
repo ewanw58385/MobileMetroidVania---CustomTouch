@@ -23,6 +23,8 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
+        target = GameObject.Find("Player").transform;
+
         InvokeRepeating("UpdatePath", 0f, 0.5f); //repeat path "update path", no delay, repeating every 0.5 seconds
 
     }

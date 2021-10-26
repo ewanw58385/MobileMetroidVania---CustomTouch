@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9087804615454666145}
   - component: {fileID: 9087804615454666144}
   - component: {fileID: 9087804615454666206}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,8 +114,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9087804615836192681}
-  - component: {fileID: 9087804615836192678}
   - component: {fileID: 9087804615836192679}
+  - component: {fileID: 9134906592780058732}
   m_Layer: 3
   m_Name: PlayerTargetObject
   m_TagString: Untagged
@@ -137,22 +137,6 @@ Transform:
   m_Father: {fileID: 9087804615454666145}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &9087804615836192678
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9087804615836192680}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1.5}
-  m_Direction: 0
 --- !u!114 &9087804615836192679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +150,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+--- !u!70 &9134906592780058732
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9087804615836192680}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.8092041, y: 1}
+  m_Direction: 0
 --- !u!1 &9087804616028150738
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 9087804616028150736}
   - component: {fileID: 9087804616028150735}
   - component: {fileID: 9087804616028150732}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyPathfindingLogic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01, y: -0.05}
+  m_Offset: {x: 0.01, y: 0.01}
   m_Size: {x: 0.73896044, y: 1.1371734}
   m_Direction: 0
 --- !u!114 &9087804616028150735
