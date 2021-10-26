@@ -80,9 +80,9 @@ public class animatorScript : MonoBehaviour
 
     public void TransitionToIdleFromFalling()
     {
-        if (rb.velocity.y < -0.1 && !GroundCheck()) //if falling
+        /*if (rb.velocity.y < -0.1) //if falling
         {
             anim.Play("idle");
-        }
+        }*/
     }
 }

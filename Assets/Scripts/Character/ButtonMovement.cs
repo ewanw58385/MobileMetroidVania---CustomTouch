@@ -118,17 +118,11 @@ public class ButtonMovement : MonoBehaviour
 
                 switch (touch.phase)
                 {
-                    case TouchPhase.Began:
-                    
-                    startPosition = touch.position;
-
-                    break;
-
                     case TouchPhase.Moved:
 
                         movingPosition = touch.position;  //converts current position while moving in pixels  
 
-                        if ((movingPosition.x > screenWidth / 2) && (startPosition.x < screenWidth / 2) ) //if touch moves out of bounds and beginning of touch was on the left 
+                        if (movingPosition.x > screenWidth / 2) //if touch moves out of bounds 
                         {
                             Debug.Log("touch moved out of bounds");
                             rb.velocity = Vector2.zero;
@@ -148,7 +142,18 @@ public class ButtonMovement : MonoBehaviour
     public void MoveCharacter(float directionHori)
     {
         var velocity = rb.velocity; //save velocity 
+
+        if (directionHori <= 0.2f) //prevent slow movement by joystick being moved slightly
+        {
+            directionHori = -1;
+        }
+            else if (directionHori >= 0.2)
+            {
+                directionHori = 1;
+            }
+
         velocity.x = directionHori * moveSpeed; //pass direction.x * moveSpeed to velocity.x
+
         rb.velocity = velocity; //set velocity on rb
 
         if (stoppedMoving && GroundCheck() ) //because moving by velocity creates sliding, I set velocity to 0 when player is not touching the screen. groundcheck to make sure player can't stop falling midair by stopping velocity  
@@ -162,10 +167,5 @@ public class ButtonMovement : MonoBehaviour
         }
 
         direction = new Vector2 (directionHori, 0); //public direction Vector for setting flip in anim controller
-
-        if (Player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
-        {
-            rb.velocity = Vector2.zero;
-        }
     }
 }
