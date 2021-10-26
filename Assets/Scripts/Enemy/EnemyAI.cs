@@ -24,6 +24,10 @@ public class EnemyAI : MonoBehaviour
         seeker = GetComponent<Seeker>();
 
         target = GameObject.Find("Player").transform;
+        if (target == null) //if there's no target
+        {
+            Debug.LogWarning("No target transform for AI to follow");
+        }
 
         InvokeRepeating("UpdatePath", 0f, 0.5f); //repeat path "update path", no delay, repeating every 0.5 seconds
 

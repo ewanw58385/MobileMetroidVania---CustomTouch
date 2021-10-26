@@ -13,7 +13,6 @@ public class EnemyHealth : MonoBehaviour
 
     private ButtonMovement buttonMovement;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +21,12 @@ public class EnemyHealth : MonoBehaviour
         anim = GetComponentInParent<Animator>();
         rb = GetComponentInParent<Rigidbody2D>();
 
+
         buttonMovement = GameObject.Find("Main Camera").GetComponent<ButtonMovement>();
+        if(buttonMovement == null)
+        {
+            Debug.LogWarning("NO BUTTON MOVEMENT SCRIPT ON CAMERA");
+        }
     }
 
     public void TakeDamage()
@@ -32,15 +36,15 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = currentHealth - 10; //decrease health
         Debug.Log(currentHealth);
 
-        anim.Play("Damaged"); //play damage anim;
+        anim.Play("damagedAnim"); //play damage anim;
 
         if (hitDirection == 1)
         {
-            rb.velocity = new Vector2 (5, 0);
+            rb.velocity = new Vector2 (8, 0); //push character away from player slightly when hit
         }
-        if (hitDirection == -1)
+        if (hitDirection == - 1)
         {
-            rb.velocity = new Vector2 (-5, 0);
+            rb.velocity = new Vector2 (-8, 0); //push character away from player slightly when hit in other direction
         }
 
         if(currentHealth <= 0) //if health = 0
@@ -54,6 +58,9 @@ public class EnemyHealth : MonoBehaviour
     {
         //play death anim;
         Debug.Log("Enemy dead!");
+        anim.Play("deathAnim");
+
+        Destroy(transform.parent.parent.gameObject, 0.7f); //destroy parent of parent (EnemyPathfindingLogic) after anim completed (after 0.7 seconds - length of anim)
     }
 
 }

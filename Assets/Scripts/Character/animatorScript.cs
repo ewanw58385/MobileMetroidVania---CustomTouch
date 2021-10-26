@@ -17,10 +17,17 @@ public class animatorScript : MonoBehaviour
     public float attackRange;
     public LayerMask enemyLayer;
 
+    Transform enemyAnimGameObject;
+    Animator enemyAnim;
+
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        enemyAnimGameObject = GameObject.Find("EnemyPathfindingLogic").transform; //gets transform of parent enemy so anim (which is on a child) can be accessed below
+        //need to find a way to do this for all instantiated prefabs 
+        enemyAnim = enemyAnimGameObject.GetChild(0).GetComponent<Animator>(); //access child of transform + get component anim 
     }
 
     void Update()
@@ -74,25 +81,18 @@ public class animatorScript : MonoBehaviour
         anim.SetTrigger("attack"); //playAttackAnim
     }
 
-    public void StoreAttackInArray()
+    public void StoreAttackInArray() //called from animation event 
     {
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer); //creates array to store attack
 
-        foreach(Collider2D enemy in enemiesHit) //for each hit
+        foreach(Collider2D enemy in enemiesHit) //for each enemy hit
         {
+            if (!enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("deathAnim")) //if death animation IS NOT playing, take damage (otherwize attackAnim restarts when attacked if attacked while dying)
+            {
             Debug.Log("hit " + enemy.name + "!"); //apply damage
             enemy.GetComponent<EnemyHealth>().TakeDamage();
+            }
         }
-    }
-
-    void OnDrawGizmosSelected() //to display the attack range in scene view 
-    {
-        if (attackPoint == null)
-        {
-            return;
-        }
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
     public void FreezeWhileAttacking()
@@ -113,5 +113,15 @@ public class animatorScript : MonoBehaviour
         {
             anim.Play("idle");
         }*/
+    }
+
+        void OnDrawGizmosSelected() //to display the attack range in scene view 
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
