@@ -8,6 +8,8 @@ public class animatorScript : MonoBehaviour
     Animator anim;
     Rigidbody2D rb;
 
+    public float flipDirection;
+
     [HideInInspector] public bool freezeWhileAttacking = false;
 
     void Start()
@@ -18,8 +20,11 @@ public class animatorScript : MonoBehaviour
 
     void Update()
     {
-        Vector2 direction = buttonMovement.direction;//gets direction Vector2 from button script to flip sprite 
-        Flip(direction);
+        flipDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) from button script to flip sprite 
+        Debug.Log(flipDirection);
+
+        Flip(flipDirection);
+
         FreezeWhileAttacking();
         TransitionToIdleFromFalling();
     }
@@ -34,16 +39,18 @@ public class animatorScript : MonoBehaviour
         return GameObject.Find("GroundCheck").GetComponent<GroundCheck>().isGrounded;
     }
 
-    void Flip(Vector2 direction)
+    void Flip(float flipDirection)
     {
-        if (direction.x < 0) //move left
+        if (flipDirection < 0) //move left
         {
             transform.localScale = new Vector3 (1f, 1f, 1f);
+            Debug.Log("face left");
         }
 
-        if (direction.x > 0) //move right
+        if (flipDirection > 0) //move right
         {
             transform.localScale = new Vector3 (-1f, 1f, 1f); //flip 
+            Debug.Log("face right");
         }
     }
     

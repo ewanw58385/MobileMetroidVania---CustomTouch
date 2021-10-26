@@ -16,7 +16,7 @@ public class ButtonMovement : MonoBehaviour
     private Vector2 offsetPos; //where playing is touching - joystick positon
     private Vector2 offsetPosMove; //offsetPos clameped to 1 for a -1/1 integer for applying horizontal movement
 
-    [HideInInspector] public Vector2 direction; //public direction vector for animation script to access (for flipping sprite)
+    [HideInInspector] public float flipDirection; //public direction vector for animation script to access (for flipping sprite)
     
     [HideInInspector] public bool stoppedMoving;
 
@@ -101,6 +101,15 @@ public class ButtonMovement : MonoBehaviour
                 offsetPos = joystickPositionScreen - movingPositionOnScreen; //calculates the difference between where the player is touching + where the gameobject is 
                 Vector2 offsetPosMove = Vector2.ClampMagnitude(offsetPos, 1); //new Vector2 clamped from -1 to 1
 
+                    if (offsetPosMove.x <= 0.2f) //prevent slow movement by joystick being moved slightly. Joystick now moves at full speed. 
+                    {
+                        offsetPosMove.x = -1;
+                    }
+                    else if (offsetPosMove.x >= 0.2)
+                    {
+                        offsetPosMove.x = 1;
+                    }
+
                 MoveCharacter(-offsetPosMove.x); //move character by clamped vector
             }
 
@@ -143,15 +152,6 @@ public class ButtonMovement : MonoBehaviour
     {
         var velocity = rb.velocity; //save velocity 
 
-        if (directionHori <= 0.2f) //prevent slow movement by joystick being moved slightly
-        {
-            directionHori = -1;
-        }
-            else if (directionHori >= 0.2)
-            {
-                directionHori = 1;
-            }
-
         velocity.x = directionHori * moveSpeed; //pass direction.x * moveSpeed to velocity.x
 
         rb.velocity = velocity; //set velocity on rb
@@ -166,6 +166,14 @@ public class ButtonMovement : MonoBehaviour
             stoppedMoving = false;
         }
 
-        direction = new Vector2 (directionHori, 0); //public direction Vector for setting flip in anim controller
+        if (Player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        flipDirection = directionHori; //public direction Vector for setting flip in anim controller
+
+        //Debug.Log(flipDirection);
+
     }
 }
