@@ -162,5 +162,10 @@ public class ButtonMovement : MonoBehaviour
         }
 
         direction = new Vector2 (directionHori, 0); //public direction Vector for setting flip in anim controller
+
+        if (Player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 }

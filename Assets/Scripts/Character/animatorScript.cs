@@ -8,6 +8,8 @@ public class animatorScript : MonoBehaviour
     Animator anim;
     Rigidbody2D rb;
 
+    [HideInInspector] public bool freezeWhileAttacking = false;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -18,11 +20,18 @@ public class animatorScript : MonoBehaviour
     {
         Vector2 direction = buttonMovement.direction;//gets direction Vector2 from button script to flip sprite 
         Flip(direction);
+        FreezeWhileAttacking();
+        TransitionToIdleFromFalling();
     }
 
     void FixedUpdate()
     {
         SetMovementBoolForAnim();
+    }
+
+    private bool GroundCheck()
+    {
+        return GameObject.Find("GroundCheck").GetComponent<GroundCheck>().isGrounded;
     }
 
     void Flip(Vector2 direction)
@@ -55,5 +64,25 @@ public class animatorScript : MonoBehaviour
     public void Attack()
     {
         anim.SetTrigger("attack");
+    }
+
+    public void FreezeWhileAttacking()
+    {
+         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+         {
+            freezeWhileAttacking = true;
+         }
+         else
+         {
+            freezeWhileAttacking = false;
+         }
+    }
+
+    public void TransitionToIdleFromFalling()
+    {
+        if (rb.velocity.y < -0.1 && !GroundCheck()) //if falling
+        {
+            anim.Play("idle");
+        }
     }
 }
