@@ -20,7 +20,6 @@ public class ButtonMovement : MonoBehaviour
     
     [HideInInspector] public bool stoppedMoving;
 
-    public GameObject Player;
     public GameObject joystickSprite;
     private Vector2 joystickSpritePos;
     public Transform joystickHandle;
@@ -31,8 +30,10 @@ public class ButtonMovement : MonoBehaviour
 
     void Start()
     {
+        //GameObject player = LevelManager.player;
+        rb = LevelManager.player.GetComponent<Rigidbody2D>(); //get component of player from LevelManager
+
         screenWidth = Screen.width; 
-        rb = Player.GetComponent<Rigidbody2D>();
 
         stoppedMoving = true; //so idle anim is first played in anim script
 
@@ -166,7 +167,7 @@ public class ButtonMovement : MonoBehaviour
             stoppedMoving = false;
         }
 
-        if (Player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
+        if (LevelManager.player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
         {
             rb.velocity = Vector2.zero;
         }

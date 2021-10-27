@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -13,11 +14,14 @@ public class EnemyHealth : MonoBehaviour
 
     private ButtonMovement buttonMovement;
 
+    public sliderScript healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
-        
+        currentHealth = maxHealth; //set health to max health
+        healthBar.SetMaxHealth(maxHealth); //call maxhealth() method for slider
+
         anim = GetComponentInParent<Animator>();
         rb = GetComponentInParent<Rigidbody2D>();
 
@@ -29,12 +33,15 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float damageTaken)
     {
         float hitDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) so enemy gets pushed in the right direction
 
-        currentHealth = currentHealth - 10; //decrease health
+        currentHealth = currentHealth - damageTaken; //decrease health
+        healthBar.SetHealth(currentHealth); //pass new current health to slider
+
         Debug.Log(currentHealth);
+
 
         anim.Play("damagedAnim"); //play damage anim;
 

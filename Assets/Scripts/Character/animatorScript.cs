@@ -13,11 +13,10 @@ public class animatorScript : MonoBehaviour
     [HideInInspector]
     public bool freezeWhileAttacking = false;
 
-    public Transform attackPoint;
+    //public Transform LevelManager.playerAttackPoint;
     public float attackRange;
     public LayerMask enemyLayer;
 
-    Transform enemyAnimGameObject;
     Animator enemyAnim;
 
     void Start()
@@ -25,9 +24,9 @@ public class animatorScript : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
-        enemyAnimGameObject = GameObject.Find("EnemyPathfindingLogic").transform; //gets transform of parent enemy so anim (which is on a child) can be accessed below
-        //need to find a way to do this for all instantiated prefabs 
-        enemyAnim = enemyAnimGameObject.GetChild(0).GetComponent<Animator>(); //access child of transform + get component anim 
+
+        Debug.Log(LevelManager.enemyPrefab.transform.childCount);//throwing nullReferenceException
+        //enemyAnim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //Referances the static prefab from level manager, gets child of prefab, gets animator component from child
     }
 
     void Update()
@@ -37,6 +36,8 @@ public class animatorScript : MonoBehaviour
 
         FreezeWhileAttacking();
         TransitionToIdleFromFalling();
+
+        //LevelManager.TestStaticMethod();
     }
 
     void FixedUpdate()
@@ -83,14 +84,14 @@ public class animatorScript : MonoBehaviour
 
     public void StoreAttackInArray() //called from animation event 
     {
-        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer); //creates array to store attack
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(LevelManager.playerAttackPoint.transform.position, attackRange, enemyLayer); //creates array to store attack
 
         foreach(Collider2D enemy in enemiesHit) //for each enemy hit
         {
             if (!enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("deathAnim")) //if death animation IS NOT playing, take damage (otherwize attackAnim restarts when attacked if attacked while dying)
             {
             Debug.Log("hit " + enemy.name + "!"); //apply damage
-            enemy.GetComponent<EnemyHealth>().TakeDamage();
+            enemy.GetComponent<EnemyHealth>().TakeDamage(10); //calls take damage script passing in damage output (10)
             }
         }
     }
@@ -117,11 +118,11 @@ public class animatorScript : MonoBehaviour
 
         void OnDrawGizmosSelected() //to display the attack range in scene view 
     {
-        if (attackPoint == null)
+        if (LevelManager.playerAttackPoint == null)
         {
             return;
         }
 
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere(LevelManager.playerAttackPoint.transform.position, attackRange);
     }
 }
