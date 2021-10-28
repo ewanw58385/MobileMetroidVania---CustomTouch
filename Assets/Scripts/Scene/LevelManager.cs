@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        Instantiate(enemyPrefab, new Vector2(35, -11), Quaternion.identity); //instantiate enemy, at position, with 0 rotation
+        //Instantiate(enemyPrefab, new Vector2(35, -11), Quaternion.identity); //instantiate enemy, at position, with 0 rotation
     }
 
     public static void TestStaticMethod()
