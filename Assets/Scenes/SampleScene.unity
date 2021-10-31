@@ -4238,7 +4238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac88393711edd04187512dfa7109fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 8
   flipDirection: 0
   stoppedMoving: 0
   joystickSprite: {fileID: 1607105534}
@@ -8624,7 +8624,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 2.5
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -8737,6 +8737,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  playerDamage: 75
 --- !u!114 &1565310531
 MonoBehaviour:
   m_ObjectHideFlags: 0

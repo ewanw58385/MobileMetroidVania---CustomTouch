@@ -9,41 +9,62 @@ public class EnemyHealth : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
-    private Animator anim;
-    private Rigidbody2D rb;
+    private Transform bar; //health bar
 
-    private ButtonMovement buttonMovement;
+    private Animator anim; //enemy anim
+    private Rigidbody2D rb; //enemy rb
+    private Animator healthBarAnim; //for fading out healthbar when dead
 
-    public sliderScript healthBar;
+    private ButtonMovement buttonMovement; //for push direction
 
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+       LevelManager.enemyHealthBar = gameObject; //sets reference for health bar 
+    }
+
     void Start()
     {
-        currentHealth = maxHealth; //set health to max health
-        healthBar.SetMaxHealth(maxHealth); //call maxhealth() method for slider
-
-        anim = GetComponentInParent<Animator>();
-        rb = GetComponentInParent<Rigidbody2D>();
-
+        anim = GetComponentInParent<Animator>(); //for hit and death animations
+        rb = GetComponentInParent<Rigidbody2D>(); //for getting knockback when hit
+        healthBarAnim = GetComponent<Animator>(); //for fading out healthbar when dead 
 
         buttonMovement = GameObject.Find("Main Camera").GetComponent<ButtonMovement>();
         if(buttonMovement == null)
         {
             Debug.LogWarning("NO BUTTON MOVEMENT SCRIPT ON CAMERA");
         }
+
+        GameObject enemyHealthBar = LevelManager.enemyHealthBar; //create healthbar object 
+        bar = enemyHealthBar.transform.Find("Bar");
+
+        currentHealth = maxHealth; //set health to max health (100)
     }
 
     public void TakeDamage(float damageTaken)
     {
-        float hitDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) so enemy gets pushed in the right direction
-
         currentHealth = currentHealth - damageTaken; //decrease health
-        healthBar.SetHealth(currentHealth); //pass new current health to slider
-
-        Debug.Log(currentHealth);
-
+        bar.localScale = new Vector3 (currentHealth / 100, 1f); //transform bar scale by: X: current health / 100 (to get health as .0f - bar scales from 1 to 0) Y: 1f (so bar doesnt shrink vertically)
+        
+        if(bar.localScale.x <= 0)
+        {
+            bar.localScale = new Vector3 (0, 1); //ensure bar does not display negatively if damage input is over max health
+        }
 
         anim.Play("damagedAnim"); //play damage anim;
+
+        PushInCorrectDirection(); //pushes enemy slightly 
+
+        if(currentHealth <= 0) //if health = 0
+        {
+            EnemyDie(); //call death method
+            currentHealth = 0; //health is 0 
+        }
+    }
+
+    public void PushInCorrectDirection()
+    {
+        float hitDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) so enemy gets pushed in the right direction
 
         if (hitDirection == 1)
         {
@@ -53,12 +74,6 @@ public class EnemyHealth : MonoBehaviour
         {
             rb.velocity = new Vector2 (-8, 0); //push character away from player slightly when hit in other direction
         }
-
-        if(currentHealth <= 0) //if health = 0
-        {
-            EnemyDie(); //call death method
-            currentHealth = 0; //health is 0 
-        }
     }
 
     public void EnemyDie()
@@ -66,6 +81,7 @@ public class EnemyHealth : MonoBehaviour
         //play death anim;
         Debug.Log("Enemy dead!");
         anim.Play("deathAnim");
+        //healthBarAnim.Play("fadeOut");
 
         Destroy(transform.parent.parent.gameObject, 0.7f); //destroy parent of parent (EnemyPathfindingLogic) after anim completed (after 0.7 seconds - length of anim)
     }

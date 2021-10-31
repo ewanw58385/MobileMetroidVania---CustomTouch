@@ -5,16 +5,10 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static GameObject enemyPrefab;
+    public static GameObject enemyHealthBar;
 
     public static GameObject player;
     public static GameObject playerAttackPoint;
-
-    void Awake()
-    {
-        //GameObject enemy = Instantiate(enemyPrefab, new Vector2(35, -11), Quaternion.identity);
-
-        //gameManager.bullet = bullet; // store the reference to the object somewhere
-    }
 
     public static void TestStaticMethod()
     {
@@ -23,9 +17,9 @@ public class LevelManager : MonoBehaviour
         //This method can be called without referencing the object of the class! 
         //You would usually need to:
 
-        //public LevelManager levelManager; //referance GameObject
+        //public LevelManager levelManager; //referance class
 
-        //LevelManager levelManager = new LevelManager(); //create instance of gameobject
+        //LevelManager levelManager = new LevelManager(); //create instance (object) of class
 
         //levelManager.TestStaticMethod(); //use method attached to instance
 

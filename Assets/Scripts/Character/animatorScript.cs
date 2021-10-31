@@ -19,6 +19,8 @@ public class animatorScript : MonoBehaviour
 
     Animator enemyAnim;
 
+    public float playerDamage = 25;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -90,7 +92,7 @@ public class animatorScript : MonoBehaviour
             if (!enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("deathAnim")) //if death animation IS NOT playing, take damage (otherwize attackAnim restarts when attacked if attacked while dying)
             {
             Debug.Log("hit " + enemy.name + "!"); //apply damage
-            enemy.GetComponent<EnemyHealth>().TakeDamage(10); //calls take damage script passing in damage output (10)
+            enemy.GetComponent<EnemyHealth>().TakeDamage(playerDamage); //calls take damage script passing in damage output (10)
             }
         }
     }
