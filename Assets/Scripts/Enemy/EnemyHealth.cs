@@ -9,14 +9,14 @@ public class EnemyHealth : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
-    private Transform bar; //health bar
-
-    private Animator anim; //enemy anim
-    private Rigidbody2D rb; //enemy rb
-    private Animator healthBarAnim; //for fading out healthbar when dead
+    private Animator anim;
+    private Rigidbody2D rb;
 
     private ButtonMovement buttonMovement; //for push direction
 
+    private GameObject enemyHealthBar;
+    private Transform bar; //health bar
+    private Animator healthBarAnim; //for fading out healthbar when dead
 
     void Awake()
     {
@@ -25,18 +25,18 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponentInParent<Animator>(); //for hit and death animations
-        rb = GetComponentInParent<Rigidbody2D>(); //for getting knockback when hit
-        healthBarAnim = GetComponent<Animator>(); //for fading out healthbar when dead 
+        enemyHealthBar = LevelManager.enemyHealthBar; //create healthbar object 
+        bar = enemyHealthBar.transform.Find("Bar"); //finds enemy healthbar fill
+        healthBarAnim = enemyHealthBar.GetComponent<Animator>(); //for fading out healthbar when dead NOTWORKINGNOTWORKINGNOTWORKING :(
 
-        buttonMovement = GameObject.Find("Main Camera").GetComponent<ButtonMovement>();
+        rb = LevelManager.enemyPrefab.GetComponent<Rigidbody2D>(); //get enemy rb
+        anim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //get enemy anim from graphics gameObject
+
+        buttonMovement = GameObject.Find("Main Camera").GetComponent<ButtonMovement>(); //get button movement for push direction
         if(buttonMovement == null)
         {
             Debug.LogWarning("NO BUTTON MOVEMENT SCRIPT ON CAMERA");
         }
-
-        GameObject enemyHealthBar = LevelManager.enemyHealthBar; //create healthbar object 
-        bar = enemyHealthBar.transform.Find("Bar");
 
         currentHealth = maxHealth; //set health to max health (100)
     }
@@ -62,7 +62,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void PushInCorrectDirection()
+        public void PushInCorrectDirection()
     {
         float hitDirection = buttonMovement.flipDirection;//gets direction as float (-1/1) so enemy gets pushed in the right direction
 
@@ -76,14 +76,17 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void EnemyDie()
+        public void EnemyDie()
     {
-        //play death anim;
         Debug.Log("Enemy dead!");
-        anim.Play("deathAnim");
-        //healthBarAnim.Play("fadeOut");
+        anim.Play("deathAnim"); //play death anim;
+        healthBarAnim.SetTrigger("hasDied"); //fade out enemy UI
 
-        Destroy(transform.parent.parent.gameObject, 0.7f); //destroy parent of parent (EnemyPathfindingLogic) after anim completed (after 0.7 seconds - length of anim)
+        if (healthBarAnim.GetCurrentAnimatorStateInfo(0).IsName("fadeOut"))
+        {
+            Debug.Log("fading...");
+        }
+
+        Destroy(transform.parent.parent.parent.gameObject, 0.7f); //destroy parent of parent of parent (EnemyPathfindingLogic) after anim completed (after 0.7 seconds - length of anim)
     }
-
 }
