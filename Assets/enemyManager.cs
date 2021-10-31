@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class enemyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //Awake is called before start
+    void Awake()
     {
-        LevelManager.enemyPrefab = gameObject; //(referancing EnemyPathfindingLogic - parent gameObject)
+        LevelManager.enemyPrefab = gameObject; //set reference for levelManager
     }
 }

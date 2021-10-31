@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class playerManager : MonoBehaviour
 {
-    void Start()
+    //Awake is called before start
+    void Awake()
     {
       LevelManager.player = gameObject; //set reference for LevelManager   
       LevelManager.playerAttackPoint = transform.GetChild(1).gameObject; //set reference for attackPoint GameObject

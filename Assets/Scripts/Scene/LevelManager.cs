@@ -9,9 +9,11 @@ public class LevelManager : MonoBehaviour
     public static GameObject player;
     public static GameObject playerAttackPoint;
 
-    void Start()
+    void Awake()
     {
-        //Instantiate(enemyPrefab, new Vector2(35, -11), Quaternion.identity); //instantiate enemy, at position, with 0 rotation
+        //GameObject enemy = Instantiate(enemyPrefab, new Vector2(35, -11), Quaternion.identity);
+
+        //gameManager.bullet = bullet; // store the reference to the object somewhere
     }
 
     public static void TestStaticMethod()

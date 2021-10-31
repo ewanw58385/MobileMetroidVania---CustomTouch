@@ -24,9 +24,8 @@ public class animatorScript : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
-
-        Debug.Log(LevelManager.enemyPrefab.transform.childCount);//throwing nullReferenceException
-        //enemyAnim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //Referances the static prefab from level manager, gets child of prefab, gets animator component from child
+        //GameObject enemyPrefab = LevelManager.enemyPrefab;
+        enemyAnim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //Referances the static prefab from level manager, gets child of prefab, gets animator component from child
     }
 
     void Update()

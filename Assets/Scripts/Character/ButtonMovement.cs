@@ -30,8 +30,8 @@ public class ButtonMovement : MonoBehaviour
 
     void Start()
     {
-        //GameObject player = LevelManager.player;
-        rb = LevelManager.player.GetComponent<Rigidbody2D>(); //get component of player from LevelManager
+        GameObject player = LevelManager.player;
+        rb = player.GetComponent<Rigidbody2D>(); //get component of player from LevelManager
 
         screenWidth = Screen.width; 
 
