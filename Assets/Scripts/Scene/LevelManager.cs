@@ -5,11 +5,20 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static GameObject enemyPrefab;
+    public static GameObject enemyPrefabInstance;
     public static GameObject enemyHealthBar;
 
     public static GameObject player;
     public static GameObject playerAttackPoint;
 
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    
     public static void TestStaticMethod()
     {
         Debug.Log("testing a static method"); 

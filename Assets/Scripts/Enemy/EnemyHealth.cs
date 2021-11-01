@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour //attached to camera
 {
     private float maxHealth = 100;
     [HideInInspector]
@@ -29,8 +29,8 @@ public class EnemyHealth : MonoBehaviour
         bar = enemyHealthBar.transform.Find("Bar"); //finds enemy healthbar fill
         healthBarAnim = enemyHealthBar.GetComponent<Animator>(); //for fading out healthbar when dead NOTWORKINGNOTWORKINGNOTWORKING :(
 
-        rb = LevelManager.enemyPrefab.GetComponent<Rigidbody2D>(); //get enemy rb
-        anim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //get enemy anim from graphics gameObject
+        rb = LevelManager.enemyPrefabInstance.GetComponent<Rigidbody2D>(); //get enemy rb
+        anim = LevelManager.enemyPrefabInstance.transform.GetChild(0).GetComponent<Animator>(); //get enemy anim from graphics gameObject
 
         buttonMovement = GameObject.Find("Main Camera").GetComponent<ButtonMovement>(); //get button movement for push direction
         if(buttonMovement == null)

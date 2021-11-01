@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class animatorScript : MonoBehaviour
+public class animatorScript : MonoBehaviour //attached to player
 {
     public ButtonMovement buttonMovement;
     Animator anim;
@@ -27,7 +27,7 @@ public class animatorScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         //GameObject enemyPrefab = LevelManager.enemyPrefab;
-        enemyAnim = LevelManager.enemyPrefab.transform.GetChild(0).GetComponent<Animator>(); //Referances the static prefab from level manager, gets child of prefab, gets animator component from child
+        enemyAnim = LevelManager.enemyPrefabInstance.transform.Find("Enemy Graphics").GetComponent<Animator>(); //Referances the static instance of prefab from level manager, gets child of prefab, gets animator component from child
     }
 
     void Update()
