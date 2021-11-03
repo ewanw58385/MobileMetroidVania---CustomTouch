@@ -7,7 +7,7 @@ public class playerManager : MonoBehaviour
     //Awake is called before start
     void Awake()
     {
-      LevelManager.player = gameObject; //set reference for LevelManager   
-      LevelManager.playerAttackPoint = transform.GetChild(1).gameObject; //set reference for attackPoint GameObject
+      GameManager.player = gameObject; //set reference for LevelManager   
+    //  LevelManager.playerAttackPoint = transform.GetChild(1).gameObject; //set reference for attackPoint GameObject
     }
 }

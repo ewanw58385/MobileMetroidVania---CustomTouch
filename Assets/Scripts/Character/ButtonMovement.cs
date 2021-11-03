@@ -28,9 +28,11 @@ public class ButtonMovement : MonoBehaviour
     private Rigidbody2D rb; 
     private float screenWidth;
 
+    public GameObject player;
+
     void Start()
     {
-        GameObject player = LevelManager.player; //recieve reference from levelmanager
+        player = GameManager.player; //recieve reference from levelmanager
         rb = player.GetComponent<Rigidbody2D>(); //get component of player 
 
         screenWidth = Screen.width; 
@@ -167,7 +169,7 @@ public class ButtonMovement : MonoBehaviour
             stoppedMoving = false;
         }
 
-        if (LevelManager.player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
+        if (GameManager.player.GetComponent<animatorScript>().freezeWhileAttacking == true) //so player cannot move while attacking 
         {
             rb.velocity = Vector2.zero;
         }

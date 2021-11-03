@@ -27,7 +27,8 @@ public class animatorScript : MonoBehaviour //attached to player
         rb = GetComponent<Rigidbody2D>();
 
         //GameObject enemyPrefab = LevelManager.enemyPrefab;
-        enemyAnim = LevelManager.enemyPrefabInstance.transform.Find("Enemy Graphics").GetComponent<Animator>(); //Referances the static instance of prefab from level manager, gets child of prefab, gets animator component from child
+        //enemyAnim = LevelManager.enemyPrefabInstance.transform.Find("Enemy Graphics").GetComponent<Animator>(); //Referances the static instance of prefab from level manager, gets child of prefab, gets animator component from child
+        //enemyAnim = GameManager.enemyInstancesList;
     }
 
     void Update()
@@ -85,17 +86,19 @@ public class animatorScript : MonoBehaviour //attached to player
 
     public void StoreAttackInArray() //called from animation event 
     {
-        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(LevelManager.playerAttackPoint.transform.position, attackRange, enemyLayer); //creates array to store attack
+        /*Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(LevelManager.playerAttackPoint.transform.position, attackRange, enemyLayer); //creates array to store attack
 
         foreach(Collider2D enemy in enemiesHit) //for each enemy hit
         {
-            if (!enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("deathAnim")) //if death animation IS NOT playing, take damage (otherwize attackAnim restarts when attacked if attacked while dying)
+            if (!enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("deathAnim")) ) //if death animation IS NOT playing, take damage (otherwize attackAnim restarts when attacked if attacked while dying)
             {
             Debug.Log("hit " + enemy.name + "!"); //apply damage
             enemy.GetComponentInChildren<EnemyHealth>().TakeDamage(playerDamage); //calls take damage script passing in damage output (10) (would like a way to reference enemyHealth without having the UI as a child of PlayerTargetObject)
             }
-        }
+        }*/
     }
+
+
 
     public void FreezeWhileAttacking()
     {
